@@ -3,7 +3,10 @@ kind: Service
 metadata:
   name: {{ include "javawebapp.fullname" . }}
   labels:
-{{ include "javawebapp.labels" . | indent 4 }}
+    app.kubernetes.io/name: {{ include "javawebapp.name" . }}
+    helm.sh/chart: {{ include "javawebapp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type }}
   ports:

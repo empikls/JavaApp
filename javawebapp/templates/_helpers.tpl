@@ -30,27 +30,3 @@ Create chart name and version as used by the chart label.
 {{- define "javawebapp.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{/*
-Common labels
-*/}}
-{{- define "javawebapp.labels" -}}
-app.kubernetes.io/name: {{ include "javawebapp.name" . }}
-helm.sh/chart: {{ include "javawebapp.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "javawebapp.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "javawebapp.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
-{{- end -}}

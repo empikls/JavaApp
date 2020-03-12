@@ -1,34 +1,37 @@
-{{- $fullName := include "javawebapp.fullname" . -}}
-{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
+{{- if .Values.ingress.enabled -}}
+  {{- $fullName := include "javawebapp.fullname" . -}}
 apiVersion: extensions/v1beta1
-{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-{{ include "javawebapp.labels" . | indent 4 }}
+    app.kubernetes.io/name: {{ include "javawebapp.name" . }}
+    helm.sh/chart: {{ include "javawebapp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  
 spec:
-  rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: {{ include "javawebapp.fullname" . }}
-          servicePort: {{ .Values.service.port }}
-{{- if .Values.ingress.path }}
-        path: {{ .Values.ingress.path }}
-{{- end -}}
-{{- if .Values.ingress.hostName }}
-    host: {{ .Values.ingress.hostName | quote }}
-{{- end }}
-
-{{- if .Values.ingress.tls }}
-  tls:
-{{ toYaml .Values.ingress.tls | indent 4 }}
-{{- end -}}
+  {{- if .Values.ingress.tls }}
+tls:
+  {{- range .Values.ingress.tls }}
+- hosts:
+  {{- range .hosts }}
+  - {{ . | quote }}
+  {{- end }}
+  secretName: {{ .secretName }}
+  {{- end }}
+  {{- end }}
+rules:
+  {{- range .Values.ingress.hosts }}
+- host: {{ .host | quote }}
+  http:
+    paths:
+      - path: {{ default "/" .path }}
+        backend:
+          serviceName: {{ $fullName }}
+          servicePort: http
+    {{- end }}
+  {{- end }}
