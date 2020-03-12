@@ -10,7 +10,7 @@ public class SpringBootHelloWorld {
  
     @RequestMapping("/")
     String home() {
-        return "Hello World 5!";
+        return "Hello World 7!";
     }
  
     public static void main(String[] args) throws Exception {
