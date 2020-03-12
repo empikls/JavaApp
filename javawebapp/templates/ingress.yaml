@@ -16,19 +16,19 @@ metadata:
 
 spec:
   rules:
-    - http:
-        paths:
-        - backend:
-            serviceName: {{ include "javawebapp.fullname" . }}
-            servicePort: {{ .Values.service.port }}
+  - http:
+      paths:
+      - backend:
+          serviceName: {{ include "javawebapp.fullname" . }}
+          servicePort: {{ .Values.service.port }}
   {{- if .Values.ingress.path }}
-          path: {{ .Values.ingress.path }}
+        path: {{ .Values.ingress.path }}
   {{- end -}}
   {{- if .Values.ingress.hostName }}
-      host: {{ .Values.ingress.hostName | quote }}
+    host: {{ .Values.ingress.hostName | quote }}
   {{- end }}
 
   {{- if .Values.ingress.tls }}
-    tls:
+      tls:
   {{ toYaml .Values.ingress.tls | indent 4 }}
   {{- end -}}
