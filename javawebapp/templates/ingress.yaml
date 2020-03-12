@@ -18,9 +18,9 @@ spec:
   rules:
     - http:
         paths:
-          - backend:
-              serviceName: {{ include "javawebapp.fullname" . }}
-              servicePort: {{ .Values.service.port }}
+        - backend:
+            serviceName: {{ include "javawebapp.fullname" . }}
+            servicePort: {{ .Values.service.port }}
   {{- if .Values.ingress.path }}
           path: {{ .Values.ingress.path }}
   {{- end -}}
