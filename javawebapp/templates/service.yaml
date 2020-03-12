@@ -3,15 +3,12 @@ kind: Service
 metadata:
   name: {{ include "javawebapp.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "javawebapp.name" . }}
-    helm.sh/chart: {{ include "javawebapp.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{ include "javawebapp.labels" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.targetPort }}
       protocol: TCP
       name: http
   selector:

@@ -1,4 +1,4 @@
-# Default values for javawebapp-chart.
+# Default values for wiki.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -8,12 +8,10 @@ image:
   repository: devops53/java-app
   pullPolicy: Always
 
-nameOverride: ""
-fullnameOverride: ""
-
 service:
   type: ClusterIP
   port: 80
+  targetPort: 80
 
 ingress:
   enabled: true
@@ -21,14 +19,11 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ssl-redirect: "true"
-  hosts:
-    - host: javawebapp-dev.ddns.net
-      paths:
-
-  tls:
-    - secretName: chart-example-tls
-      hosts:
-        -javawebapp-dev.ddns.net
+  #rules:
+  #- http:
+  #    paths:
+  #    - backend:
+  path: /
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
