@@ -5,6 +5,7 @@
 replicaCount: 1
 
 image:
+  repository: devops53/hello-world
   pullPolicy: Always
 
 service:
