@@ -10,7 +10,7 @@ metadata:
   labels:
 {{ include "javawebapp.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
-  annotations:
+annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 
@@ -25,7 +25,7 @@ spec:
         path: {{ .Values.ingress.path }}
 {{- end -}}
 {{- if .Values.ingress.hostName }}
-    host: {{ .Values.ingress.hostName | quote }}
+    host: {{ .Values.ingress.hostName }}
 {{- end }}
 
 {{- if .Values.ingress.tls }}

@@ -5,13 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: devops53/java-app
   pullPolicy: Always
 
 service:
   type: ClusterIP
-  port: 9001
-  targetPort: 9001
+  port: 8080
+  targetPort: 3000
 
 ingress:
   enabled: true
