@@ -11,7 +11,7 @@ public class SpringBootHelloWorld {
 
     @RequestMapping("/")
     String home() {
-        return "Mood my foot 11!!" + appVersion ;
+        return "Mood my foot 12!!" + appVersion ;
     }
 
     public static void main(String[] args) throws Exception {
