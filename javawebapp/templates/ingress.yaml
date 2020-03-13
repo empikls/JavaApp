@@ -1,4 +1,4 @@
-{{- $fullName := include "javawebapp.fullname" . -}}
+{{- $fullName := include "app.fullname" . -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
@@ -8,7 +8,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-{{ include "javawebapp.labels" . | indent 4 }}
+{{ include "app.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -19,16 +19,16 @@ spec:
   - http:
       paths:
       - backend:
-          serviceName: {{ include "javawebapp.fullname" . }}
+          serviceName: {{ include "app.fullname" . }}
           servicePort: {{ .Values.service.port }}
-  {{- if .Values.ingress.path }}
+{{- if .Values.ingress.path }}
         path: {{ .Values.ingress.path }}
-  {{- end -}}
-  {{- if .Values.ingress.hostName }}
+{{- end -}}
+{{- if .Values.ingress.hostName }}
     host: {{ .Values.ingress.hostName | quote }}
-  {{- end }}
+{{- end }}
 
-  {{- if .Values.ingress.tls }}
-      tls:
-  {{ toYaml .Values.ingress.tls | indent 4 }}
-  {{- end -}}
+{{- if .Values.ingress.tls }}
+  tls:
+{{ toYaml .Values.ingress.tls | indent 4 }}
+{{- end -}}
