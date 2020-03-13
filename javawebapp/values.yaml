@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: devops53/hello-world
+  repository: devops53/java-app
   pullPolicy: Always
 
 service:
